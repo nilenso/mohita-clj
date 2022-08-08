@@ -1,5 +1,3 @@
-(ns joc)
-
 (ns clojure-by-example.joc)
 
 ;java array can be modified
@@ -10,7 +8,7 @@
 
 (def ds2 [:a :b :c])
 ; aset only work on java structures
-(aset ds2 1 :c)
+;(aset ds2 1 :c)
 (clojure.repl/source aset)
 (replace {:b :d} ds2)
 ds2
@@ -75,7 +73,13 @@ ds2
 ;last o(n) use peek instead?
 
 (subvec a 3 6)
+(pop a)
+
+;A class in Java can be garbage-collected when nothing references it.
 ;map entries are vectors
+
+; subvec returns new subvec object
+; pop return same object
 (vector? (map identity {:a 1 :b 2}))
 
 (for [[dimension amount] {:width 10, :height 20, :depth 15}]
@@ -110,6 +114,9 @@ ds2
 (cons 1 '(3 4))
 (conj '(3 4) 1)
 
+;cons returns new list
+(type (cons 1 '(3 4)))
+(type (conj '(3 4) 1))
 ;as stack pop next rest
 ;pop on empty error
 (def l '(1 2 3 4))
@@ -150,12 +157,16 @@ ds2
 ;can check for any val present in set
 (some #{:b} [:a 1 :b 2])
 (some #{:z } [:a 1 :b 2])
-(some #{:b :a :z} [:a 1 :b 2])
+(some #{:b :a :z 1} [:a 1 :b 2])
 
 (def s (sorted-set :b :c :a))
 (def ss (sorted-set :d :e :a))
 (conj s 100)
-;avoid by using sorted set by
+;avoid by using sorted set with different primitives
+
+;set is a map with each value as the key and value
+(contains? #{1 2 4 3} 4)
+(contains? [1 2 3 4] 4)
 
 (clojure.set/intersection s ss)
 (clojure.set/union s ss)
@@ -174,4 +185,13 @@ ds2
 (class (zipmap [:a :b] [1 2]))
 
 (sorted-map :a 1 :b 2 :c 3)
+;;does not support hetergenous keys, depends on comparison fn
+
+;use array map to keep seq in insertion order
+
+(seq (hash-map :a 1, :c 2, :b 3))
+(seq (hash-map :a 1, :b 2, :c 3))
+
+(seq (array-map :a 1, :c 2, :b 3))
+(seq (array-map :a 1, :b 2, :c 3))
 
