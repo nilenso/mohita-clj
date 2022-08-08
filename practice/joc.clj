@@ -1,5 +1,4 @@
-(ns clojure-by-example.joc)
-
+(ns joc (:gen-class))
 ;java array can be modified
 (def ds (into-array [:a :b :c]))
 (aset ds 1 :c)
@@ -194,4 +193,3 @@ ds2
 
 (seq (array-map :a 1, :c 2, :b 3))
 (seq (array-map :a 1, :b 2, :c 3))
-
