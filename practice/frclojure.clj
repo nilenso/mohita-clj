@@ -118,24 +118,92 @@
 
 ;33
 (= ((fn [c n]
-       (for [c c _ (range n)]
-         c) )[1 2 3] 2) '(1 1 2 2 3 3))
+      (for [c c _ (range n)]
+        c)) [1 2 3] 2) '(1 1 2 2 3 3))
 
 
 ;34
-
-(= (__ 5 8) '(5 6 7))
 
 ((fn [start end]
    (loop [curr start
           acc []]
      (if (= curr end)
        acc
-       (recur (inc curr) (conj acc curr))))) 1 4 )
-
+       (recur (inc curr) (conj acc curr))))) 1 4)
 ;38
 
-(= ((fn [ & vals]
+(= ((fn [& vals]
       (reduce (fn [max curr]
                 (if (> max curr) max curr)) vals))
     1 8 3 4) 8)
+
+;39
+
+(= (mapcat (fn [a b] (conj [] a b)) [1 2 3] [:a :b :c]) '(1 :a 2 :b 3 :c))
+
+;40
+
+(= ((fn [x y] (rest (flatten (for [x (list x)
+                                   y y] (conj [] x y))))) 0 [1 2 3]) [1 0 2 0 3])
+
+;41
+(= ((fn [x n] (for [pos (range (count x))
+                    :when (> (mod (inc pos) n) 0)]
+                (nth x pos))) [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
+
+;42 fact
+(= ((fn [n] (loop [curr n
+                   fact 1]
+              (if (<= curr 1)
+                fact
+                (recur (dec n) (* n fact)))
+              )) 5) 120)
+
+((fn [n]
+   (reduce * (range 1 (inc n)))) 3)
+
+;43
+(= ((fn [c n]
+      (map (fn [x] (take-nth n (drop x c)))
+        (range n))) [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
+
+;;44
+(= ((fn [n coll] (let [c (count coll)
+                       n (mod n c)]
+                   (if (< n 0)
+                     (concat (take-last (+ n c) coll) (take n coll))
+                     (concat (take-last (- c n) coll) (take n coll)))
+                   )) -2 [1 2 3 4 5]) '(4 5 1 2 3))
+
+;46
+(= 3 (((fn [f] (fn [x y] (f y x))) nth) 2 [1 2 3 4 5]))
+
+;47
+(contains? [1 1 1 1 1 1] 4)
+
+;49
+(= ((fn [n c] (conj [] (take n c) (drop n c))) 3 [1 2 3 4 5 6]) [[1 2 3] [4 5 6]])
+
+;50
+(= (set ((fn [c] (vals (group-by class c))) [:a "foo" "bar" :b])) #{[:a :b] ["foo" "bar"]})
+
+;51
+(= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b & c :as d] [1 2 3 4 5]] [a b c d]))
+
+;52
+(= [2 4] (let [[a b c d e f g] (range)] [c e]))
+
+;54
+((fn [n xs]
+   (take
+     (quot (count xs) n) (map #(take n %)
+                           (iterate #(drop n %) xs)))) 3 (range 8))
+;55
+(= ((fn [c]
+      (into {} (map (fn [[k v]] {(first v) (count v)}) (group-by identity c)))) '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})
+
+;56
+(= ((fn [coll] (reduce (fn [result x]
+                         (if (some #{x} result)
+                           result
+                           (conj result x))) [] coll)) [1 2 1 3 1 2 4]) [1 2 3 4])
