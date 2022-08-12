@@ -193,3 +193,15 @@ ds2
 
 (seq (array-map :a 1, :c 2, :b 3))
 (seq (array-map :a 1, :b 2, :c 3))
+
+
+;;lazy seq
+
+;;
+(def very-lazy (-> (iterate #(do (print \.) (inc %)) 1)
+
+                 rest rest rest))
+
+(def less-lazy (-> (iterate #(do (print \.) (inc %)) 1)
+
+                 next next next))

@@ -130,6 +130,7 @@
      (if (= curr end)
        acc
        (recur (inc curr) (conj acc curr))))) 1 4)
+
 ;38
 
 (= ((fn [& vals]
@@ -193,11 +194,6 @@
 ;52
 (= [2 4] (let [[a b c d e f g] (range)] [c e]))
 
-;54
-((fn [n xs]
-   (take
-     (quot (count xs) n) (map #(take n %)
-                           (iterate #(drop n %) xs)))) 3 (range 8))
 ;55
 (= ((fn [c]
       (into {} (map (fn [[k v]] {(first v) (count v)}) (group-by identity c)))) '([1 2] [1 3] [1 3])) {[1 2] 1, [1 3] 2})
@@ -207,3 +203,42 @@
                          (if (some #{x} result)
                            result
                            (conj result x))) [] coll)) [1 2 1 3 1 2 4]) [1 2 3 4])
+;58
+
+(= [3 2 1] (((fn [& fs] (fn [args]
+                          (loop [fs (reverse fs)
+                                 args args]
+                            (if (empty? fs)
+                              args
+                              (recur (rest fs)
+                                (list (apply (first fs) args))))
+                            ))) rest reverse identity) [1 2 3 4]))
+
+(((fn underscore [& fs]
+    (fn inner-fn [& args]
+      (first
+        (reduce
+          #(list (apply %2 %1))
+          args
+          (reverse fs)))))
+  rest reverse) [1 2 3 4])
+
+(((fn our-comp [& fs]
+    (letfn [(eval-fn-with-args [args f] (list (apply f args)))
+            (comped-fn [& args] (first (reduce eval-fn-with-args
+                                         args
+                                         (reverse fs))))]
+      comped-fn))
+  rest reverse)
+ [1 2 3 4])
+
+;59
+
+(= [21 6 1] (((fn my-juxt [& fs]
+                (fn juxt-fn[& args]
+                  (map
+                    #(apply % args)
+                    fs)
+                  )) + max min) 2 3 5 1 6 4))
+;60
+
