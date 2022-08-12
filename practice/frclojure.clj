@@ -158,7 +158,7 @@
               (if (<= curr 1)
                 fact
                 (recur (dec n) (* n fact)))
-              )) 5) 120)
+              )) 2) 2)
 
 ((fn [n]
    (reduce * (range 1 (inc n)))) 3)
@@ -205,7 +205,7 @@
                            (conj result x))) [] coll)) [1 2 1 3 1 2 4]) [1 2 3 4])
 ;58
 
-(= [3 2 1] (((fn [& fs] (fn [args]
+(= [3 2 1] (((fn [& fs] (fn [& args]
                           (loop [fs (reverse fs)
                                  args args]
                             (if (empty? fs)
@@ -235,10 +235,51 @@
 ;59
 
 (= [21 6 1] (((fn my-juxt [& fs]
-                (fn juxt-fn[& args]
+                (fn juxt-fn [& args]
                   (map
                     #(apply % args)
                     fs)
                   )) + max min) 2 3 5 1 6 4))
 ;60
+
+(fn my-reduction
+
+  ([f x] (my-reduction f (first x) (rest x)))
+
+  ([f x y]
+   (lazy-seq
+     (if (empty? y)
+       [x]
+       (let [result (f x (first y))]
+         (cons
+           x
+           (my-reduction f result (rest y))))))))
+
+
+(= (take 5 ((fn my-reduction
+
+              ([f x] (my-reduction f (first x) (rest x)))
+
+              ([f x y] (lazy-seq
+                         (if (empty? y)
+                           [x]
+                           (let [result (f x (first y))]
+                             (cons
+                               x
+                               (my-reduction f result (rest y))
+                               )))))) + (range))) [0 1 3 6 10])
+;61
+
+(= ((fn [x y]
+      (into {} (map hash-map x y))) [:a :b :c] [1 2 3]) {:a 1, :b 2, :c 3})
+
+
+;62
+
+(= (take 5 ((fn iterate-v2 [f x]
+              (lazy-seq (cons x
+                          (iterate-v2 f (f x))))) #(* 2 %) 1)) [1 2 4 8 16])
+
+;63
+(= (__ #(> % 5) #{1 3 6 8}) {false [1 3], true [6 8]})
 

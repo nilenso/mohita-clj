@@ -42,7 +42,7 @@ ds2
 (get a 4)
 (a 4)
 ;gives error
-(a 50)
+;(a 50)
 (get a 50 :default)
 
 ;assoc constant time -> structural sharing?
@@ -160,7 +160,7 @@ ds2
 
 (def s (sorted-set :b :c :a))
 (def ss (sorted-set :d :e :a))
-(conj s 100)
+;(conj s 100)
 ;avoid by using sorted set with different primitives
 
 ;set is a map with each value as the key and value
@@ -205,3 +205,16 @@ ds2
 (def less-lazy (-> (iterate #(do (print \.) (inc %)) 1)
 
                  next next next))
+
+(defn simple-range [i limit]
+  (lazy-seq
+    (when (< i limit)
+      (cons i (simple-range (inc i) limit)))))
+
+(take 2 (simple-range 0 9))
+
+(defn simple-range [i limit]
+  (lazy-seq
+    (when (< i limit)
+      (cons i (simple-range (inc i) limit)))))
+
