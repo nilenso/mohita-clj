@@ -1,5 +1,6 @@
 (ns frclojure
-  (:gen-class))
+  (:gen-class)
+  (:import (clojure.lang ISeq)))
 ;nth
 (= ((fn [c p] (loop [coll c pos p]
                 (if-not (> pos 0)
@@ -277,9 +278,50 @@
 ;62
 
 (= (take 5 ((fn iterate-v2 [f x]
-              (lazy-seq (cons x
-                          (iterate-v2 f (f x))))) #(* 2 %) 1)) [1 2 4 8 16])
+              (lazy-seq (cons
+                          x
+                          (iterate-v2 f (f x)))))
+            #(* 2 %) 1)) [1 2 4 8 16])
+
+(take 5 ((fn iterate-v2 [f x]
+           (lazy-seq (conj
+                       (iterate-v2 f (f x))
+                       x)))
+         #(* 1 %) 1))
+
+
+(defn iterate-v2 [f x]
+  (lazy-seq (conj
+              (iterate-v2 f (f x))
+              x)))
 
 ;63
-(= (__ #(> % 5) #{1 3 6 8}) {false [1 3], true [6 8]})
+((fn grouping [f coll]
+   (reduce #(merge-with concat %1 %2)
+     (map #(hash-map (f %) [%]) coll)))
+ #(> % 5) #{1 3 6 8})
+
+;65
+
+((fn get-coll [coll]
+   (let [emptycoll (empty coll)]
+     (cond
+       (= {} emptycoll) :map
+       (= #{} emptycoll) :set
+       (= 1
+         (first (conj emptycoll 1 2))) :vector
+       :else :list
+       ))
+   ) [])
+
+;73
+
+(fn tic-tac-toe
+  (letfn [(win-row [player board]
+            (map #(apply = player %) board))
+          (get-primary-diag [board]  (map #(get-in board [% %]) (range 3)))
+          (get-secondary-diag [board] (map #(get-in board [% (- 2 %)])
+                                           (range 3)))
+          (transpose [board] (apply map vector board))]
+    ))
 

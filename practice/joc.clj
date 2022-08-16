@@ -218,3 +218,6 @@ ds2
     (when (< i limit)
       (cons i (simple-range (inc i) limit)))))
 
+(first (map (fn [x] (prn x) x) (range)))
+
+(first (map (fn [x] (prn x) x) (range 100)))
