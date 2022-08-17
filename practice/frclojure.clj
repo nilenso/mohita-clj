@@ -314,14 +314,52 @@
        ))
    ) [])
 
+;67
+
+(fn [x y]
+  (if (zero? y)
+    x
+    (recur y (mod x y))))
+;67
+
+(fn is-prime? [n]
+  (empty? (filter #(= 0 (mod n %)) (range 2 n))))
+
 ;73
 
-(fn tic-tac-toe
-  (letfn [(win-row [player board]
-            (map #(apply = player %) board))
-          (get-primary-diag [board]  (map #(get-in board [% %]) (range 3)))
-          (get-secondary-diag [board] (map #(get-in board [% (- 2 %)])
-                                           (range 3)))
-          (transpose [board] (apply map vector board))]
-    ))
+((fn tic-tac-toe [board]
+   (letfn [(winning-row [player]
+             (some #(apply = player %) board))
 
+           (win-primary-diag [player]
+             (apply = player (map #(get-in board [% %]) (range 3))))
+
+           (win-secondary-diag [player]
+             (apply = player (map #(get-in board [% (- 2 %)]) (range 3))))
+
+           (transpose []
+             (apply map vector board))]
+
+
+     (cond
+       (winning-row :o) :o
+       (winning-row :x) :x
+       (winning-row :o (transpose)) :o
+       (winning-row :x (transpose)) :x
+       (win-primary-diag :o) :o
+       (win-primary-diag :x) :x
+       (win-secondary-diag :o) :o
+       (win-secondary-diag :x) :x
+       :else
+       nil
+       )))
+
+ [[:x :x :x]
+  [:x :x :x]
+  [:o :e :x]])
+
+
+
+
+
+;
