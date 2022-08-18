@@ -25,7 +25,7 @@
   [matrix]
   (let [n (count matrix)]
     (for [i (range n)]
-      [(- n i 1) i])))
+      [i (- n i 1)])))
 
 
 (defn get-elements-of-matrix
@@ -33,31 +33,38 @@
   (vec (map #(get-in matrix %) coordinates)))
 
 
-(defn get-all-possible-seqs
-  [matrix])
-
-
-(defn diag-winner
+(defn get-diagonals
   [matrix]
-  (->> matrix
-       (primary-diag-coordinates)
-       (get-elements-of-matrix matrix)
-       (winner-of-collection)))
+  (conj []
+        (get-elements-of-matrix matrix (primary-diag-coordinates matrix))
+        (get-elements-of-matrix matrix (secondary-diag-coordinates matrix))))
+
+
+(defn get-all-possible-seqs
+  [matrix]
+  (concat
+    matrix
+    (transpose-matrix matrix)
+    (get-diagonals matrix)))
+
+
+(defn winning-seqs
+  [matrix]
+  (filter winner-of-collection
+          (get-all-possible-seqs matrix)))
 
 
 (defn winner-of-board
   [matrix]
-  conj)
+  (if (= 1 (count (winning-seqs matrix)))
+    (first (first (winning-seqs matrix)))
+    "no winner"))
 
 
-(defn diagonal-elements
-  [matrix]
-  (let [n                (count matrix)
-        primary-coords   (for [i (range n)] [i i])
-        secondary-coords (for [i (range n)] [i (- n i 1)])
-        primary-diags    (vec (map #(get-in matrix %) primary-coords))
-        secondary-diags  (vec (map #(get-in matrix %) secondary-coords))]
-    (prn primary-coords)
-    (conj [] primary-diags secondary-diags)))
+(def board
+  [[:x :e :e]
+   [:x :e :e]
+   [:x :e :o]])
 
 
+(winner-of-board board)
