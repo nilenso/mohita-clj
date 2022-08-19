@@ -490,4 +490,78 @@
   [:o :e :x]])
 
 
-;; 
+;; 74
+
+(defn is-perfect-square?
+  [n]
+  (let [approx-sqrt (Math/sqrt n)]
+    (= approx-sqrt
+       (Math/floor approx-sqrt))))
+
+
+(defn filter-perfect-squares
+  [s]
+  (->>
+    (clojure.string/split s #",")
+    (map #(Integer/parseInt %))
+    (filter is-perfect-square?)
+    (clojure.string/join ",")))
+
+
+(defn filter-perfect-squares-v2
+  [s]
+  (->>
+    (clojure.string/split s #",")
+    (map read-string)
+    (filter is-perfect-square?)
+    (interpose \,)
+    (apply str)))
+
+
+(filter-perfect-squares-v2 "15,16,25,36,37")
+
+(= (filter-perfect-squares "4,5,6,7,8,9") "4,9")
+
+(= (filter-perfect-squares-v2 "15,16,25,36,37") "16,25,36")
+
+
+;; 75
+
+(defn gcd
+  [x y]
+  (if (zero? y)
+    x
+    (recur y (mod x y))))
+
+
+(defn is-coprime?
+  [x y]
+  (= 1 (gcd x y)))
+
+
+(defn totient-function
+  [n]
+  (if (= 1 n)
+    n
+    (count (filter
+             #(is-coprime? n %)
+             (range 1 n)))))
+
+
+;; for 4clj
+(defn totient-function-v2
+  [n]
+  (if (= 1 n)
+    n
+    (count (filter
+             #((fn is-coprime?
+                 [x y]
+                 (= 1 ((fn gcd
+                         [x y]
+                         (if (zero? y)
+                           x
+                           (recur y (mod x y)))) x y))) n %)
+             (range 1 n)))))
+
+
+;; 76
