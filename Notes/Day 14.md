@@ -11,8 +11,7 @@ Tic Tac Toe
 - Wrote unit tests for ttt. Not quite sure i’ve gotten hang of it.
 - Discovered many bugs lol
 - Acc to style guide name it as (deftest fn-name-test)
-- Made a pr but not entirely happy with it. Didn’t finish testing everything.
-
+- Made a pr but not entirely happy with it. Didn’t finish testing everything. (Forgot to commit each test :’) )
 ---
 
 ### Topic
@@ -32,8 +31,7 @@ Tic Tac Toe
 ### Notes
 
 - Math/sqrt didn’t work on 4clojure so tried to find another method, didn’t find one yet. (try again later)
-- Used the `- >` macro again here, works well here cause logic flows well.
-
+- Used the - > macro again here, works well here cause logic flows well even if data is transformed a little.
 ---
 
 <aside>
