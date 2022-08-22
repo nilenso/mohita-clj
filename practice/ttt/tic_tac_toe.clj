@@ -36,15 +36,15 @@
 
 (defn winner-of-board
   [board]
-  (if (valid-board? board)
+  (if (and
+        (mo/square-matrix? board)
+        (valid-board? board))
     (winning-game-piece board)
     "Invalid Board"))
 
 
 (def test-board
-  [[:e :x :e]
-   [:o :o :o]
-   [:x :e :x]])
+  [[:x :e ]])
 
 
 (winner-of-board test-board)

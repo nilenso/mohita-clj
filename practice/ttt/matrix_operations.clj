@@ -22,7 +22,7 @@
 
 
 (defn get-elements-of-matrix
-  [matrix, coordinates]
+  [matrix coordinates]
   (vec (map #(get-in matrix %) coordinates)))
 
 
@@ -40,4 +40,8 @@
     (transpose-matrix matrix)
     (get-diagonals-of-matrix matrix)))
 
+
+(defn square-matrix?
+  [matrix]
+  (apply = (count matrix) (map count matrix)))
 

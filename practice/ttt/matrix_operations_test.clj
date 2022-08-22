@@ -40,5 +40,10 @@
   (testing "with coordinates that are out of bound"
     (is (= [nil] (get-elements-of-matrix test-matrix '([0 7]))))))
 
+(deftest square-matrix?-test
+  (testing "With 3x3 matrix"
+    (is (= true? (square-matrix? test-matrix))))
+  (testing "With 1x2 matrix"
+    (is (= false (square-matrix? [[:e :x ]])))))
 
 (run-all-tests #"clojure.test.example")
