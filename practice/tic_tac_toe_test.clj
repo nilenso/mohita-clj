@@ -50,6 +50,18 @@
                                                 [2 5 8]])))))
 
 
+(deftest get-elements-of-matrix
+  (testing "with coordinates inside matrix"
+    (is (= 1 (ttt/get-elements-of-matrix [[1 4 7]
+                                          [2 5 8]
+                                          [3 6 9]] ([0 0])))))
+
+  (testing "with coordinates that are out of bound"
+    (is (= nil (ttt/get-elements-of-matrix [[1 4 7]
+                                            [2 5 8]
+                                            [3 6 9]] ([0 7]))))))
+
+
 (deftest is-valid-collection?-test
   (testing "Validity of a collection in board"
     (testing "with valid game pieces"
@@ -67,7 +79,9 @@
     (testing "with invalid game pieces"
       (is (= false (ttt/is-board-valid? [[:x :e :o]
                                          [:x :x :e]
-                                         [:o 1 :o]]))))))
+                                         [:o 1 :o]]))))
+    (testing "with invalid board size"
+      (is (= false (ttt/is-board-valid? []))))))
 
 
 (deftest winner-of-board-test
