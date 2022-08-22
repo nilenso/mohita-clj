@@ -54,12 +54,14 @@
   (testing "with coordinates inside matrix"
     (is (= 1 (ttt/get-elements-of-matrix [[1 4 7]
                                           [2 5 8]
-                                          [3 6 9]] ([0 0])))))
+                                          [3 6 9]] '([0 0])))))
 
   (testing "with coordinates that are out of bound"
     (is (= nil (ttt/get-elements-of-matrix [[1 4 7]
                                             [2 5 8]
-                                            [3 6 9]] ([0 7]))))))
+                                            [3 6 9]] '([0 7])))))
+  (testing "with 1d array with no elements"
+    (is (= nil (ttt/get-elements-of-matrix [] '([0 0]))))))
 
 
 (deftest is-valid-collection?-test
