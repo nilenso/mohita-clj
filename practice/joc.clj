@@ -275,3 +275,11 @@ ds2
 (first (map (fn [x] (prn x) x) (range)))
 
 (first (map (fn [x] (prn x) x) (range 100)))
+
+
+(defn fac-cps
+  [n k]
+  (letfn [(cont [v] (k (* v n)))]
+    (if (zero? n)
+      (k 1)
+      (recur (dec n) cont))))
