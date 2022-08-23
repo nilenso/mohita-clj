@@ -1,4 +1,4 @@
-(ns ttt.matrix-operations-test
+(ns matrix-operations-test
   (:require
     [clojure.test :refer :all]
     [ttt.matrix-operations :refer :all]))

@@ -1,4 +1,4 @@
-(ns ttt.tic-tac-toe-test
+(ns tic-tac-toe-test
   (:require
     [clojure.set]
     [clojure.test :refer :all]
