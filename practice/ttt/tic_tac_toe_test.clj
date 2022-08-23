@@ -1,5 +1,6 @@
 (ns ttt.tic-tac-toe-test
   (:require
+    [clojure.set]
     [clojure.test :refer :all]
     [ttt.tic-tac-toe :refer :all]))
 

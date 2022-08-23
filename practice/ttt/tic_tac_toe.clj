@@ -1,6 +1,7 @@
 (ns ttt.tic-tac-toe
   (:gen-class)
   (:require
+    [clojure.set]
     [ttt.matrix-operations :as mo]))
 
 
@@ -44,10 +45,12 @@
 
 
 (def test-board
-  [[:x :e ]])
+  [[:x :e]])
 
 
-(winner-of-board test-board)
+(defn -main
+  []
+  (prn (winner-of-board test-board)))
 
 
 ;; board

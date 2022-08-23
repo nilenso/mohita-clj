@@ -51,7 +51,7 @@
 
 (deftest square-matrix?-test
   (testing "With 3x3 matrix"
-    (is (= true? (square-matrix? test-matrix))))
+    (is (= true (square-matrix? test-matrix))))
   (testing "With 1x2 matrix"
     (is (= false (square-matrix? [[:e :x]])))))
 
