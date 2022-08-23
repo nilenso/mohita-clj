@@ -49,9 +49,9 @@
                                          [:o :x :o]]))))
   (testing "Returns invalid board "
     (testing "when game pieces aren't valid"
-     (is (= "Invalid Board" (winner-of-board [[:x :e :o]
-                                              [:x :x :e]
-                                              [:o 1 :o]]))))
+      (is (= "Invalid Board" (winner-of-board [[:x :e :o]
+                                               [:x :x :e]
+                                               [:o 1 :o]]))))
     (testing "when board is not a square matrix "
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
 

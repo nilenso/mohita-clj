@@ -8,17 +8,24 @@
     (vec (apply map vector matrix))))
 
 
+(defn square-matrix?
+  [matrix]
+  (apply = (count matrix) (map count matrix)))
+
+
 (defn primary-diag-coordinates
   [matrix]
-  (for [i (range (count matrix))]
-    [i i]))
+  (if (square-matrix? matrix)
+    (for [i (range (count matrix))]
+      [i i])))
 
 
 (defn secondary-diag-coordinates
   [matrix]
-  (let [n (count matrix)]
-    (for [i (range n)]
-      [i (- n i 1)])))
+  (if (square-matrix? matrix)
+    (let [n (count matrix)]
+      (for [i (range n)]
+        [i (- n i 1)]))))
 
 
 (defn get-elements-of-matrix
@@ -39,9 +46,4 @@
     matrix
     (transpose-matrix matrix)
     (get-diagonals-of-matrix matrix)))
-
-
-(defn square-matrix?
-  [matrix]
-  (apply = (count matrix) (map count matrix)))
 
