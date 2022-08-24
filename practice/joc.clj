@@ -257,24 +257,31 @@ ds2
 
 (defn simple-range
   [i limit]
+
   (lazy-seq
     (when (< i limit)
-      (cons i (simple-range (inc i) limit)))))
+      (do (prn i)
+          (cons i (simple-range (inc i) limit))))))
 
 
-(take 2 (simple-range 0 9))
+(def a (first (simple-range 0 50)))
 
 
-(defn simple-range
-  [i limit]
+(defn re-chunk
+  [n xs]
   (lazy-seq
-    (when (< i limit)
-      (cons i (simple-range (inc i) limit)))))
+    (when-let [s (seq (take n xs))]
+      (let [cb (chunk-buffer n)]
+        (doseq [x s] (chunk-append cb x))
+        (chunk-cons (chunk cb)
+                    (re-chunk n (drop n xs)))))))
 
 
-(first (map (fn [x] (prn x) x) (range)))
+(first (map (fn [x] (prn x) x) (re-chunk 3 (range))))
 
-(first (map (fn [x] (prn x) x) (range 100)))
+
+(first (map (fn [x] (prn x) x)
+            (range 100)))
 
 
 (defn fac-cps
@@ -283,3 +290,35 @@ ds2
     (if (zero? n)
       (k 1)
       (recur (dec n) cont))))
+
+
+(fac-cps 3 identity)
+
+
+;; n = 3
+;; c1 - x ->x
+;; c2 - x -> k1(x * 3)
+;; c3 - x -> k2(x * 2) --- base case
+;;        -> k2(k1(x * 3) * 2)
+;; k3 will be called with val of 1
+;; k3(1)
+;; k2(2)
+;; k1(6)
+
+;; x^n
+(defn pow-2
+  [x n acc]
+  (if (= 0 n)
+    acc
+    (recur x (dec n) (* acc x))))
+
+
+(defn rec-step
+  [[x & xs] acc]
+  (prn (type xs))
+  (if x
+    (rec-step xs [x acc])
+    acc))
+
+
+(lazy-seq (rec-step (range) []))
