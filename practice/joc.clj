@@ -1,5 +1,10 @@
 (ns joc
-  (:gen-class))
+  (:gen-class)
+  (:require
+    [clojure.xml :as xml])
+  (:import
+    (java.io
+      ByteArrayInputStream)))
 
 
 ;; java array can be modified
@@ -279,7 +284,7 @@ ds2
 
 
 (first (map (fn [x] (prn x) x)
-            (re-chunk 3 (range))))
+            (range)))
 
 
 (first (map (fn [x] (prn x) x)
@@ -307,16 +312,17 @@ ds2
 ;; c2(2)
 ;; c1(6)
 
-;;nth fibonacci number
+;; nth fibonacci number
 
-;;recursively
+;; recursively
 (defn fib-rec
   [n]
   (if (< n 2)
     n
     (+ (fib-rec (- n 1)) (fib-rec (- n 2)))))
 
-;;tail recursion
+
+;; tail recursion
 (defn fib-tc-helper
   [n acc1 acc2]
   (if (< n 2)
@@ -324,17 +330,23 @@ ds2
     (recur (dec n) (+ acc1 acc2) acc1)))
 
 
-(defn fib-tc [n]
-        (fib-tc-helper n 1 0))
+(defn fib-tc
+  [n]
+  (fib-tc-helper n 1 0))
 
-;;cps
 
-(defn fib-cps [n k]
-  (letfn [(cont [n1] (fib-cps (- n 2)
-                              (fn [n2] (k (+ n1 n2)))))]
+;; cps
+
+(defn fib-cps
+  [n k]
+  (letfn [(cont
+            [n1]
+            (fib-cps (- n 2)
+                     (fn [n2] (k (+ n1 n2)))))]
     (if (< n 2)
       (k n)
       (recur (- n 1) cont))))
+
 
 ;; k1 x - x
 ;; k2 x
@@ -346,3 +358,58 @@ ds2
   (if (= 0 n)
     acc
     (recur x (dec n) (* acc x))))
+
+
+;; ERROR HANDLNG
+(defn traverse
+  [node f]
+  (when node
+    (f node)
+    (doseq [child (:content node)]
+      (traverse child f))))
+
+
+(def DB
+  (-> "<zoo>
+         <pongo>
+           <animal>orangutan</animal>
+         </pongo>
+         <panthera>
+           <animal>Spot</animal>
+           <animal>lion</animal>
+           <animal>Lopshire</animal>
+         </panthera>
+       </zoo>"
+      .getBytes
+      (ByteArrayInputStream.)
+      xml/parse))
+
+
+(defn ^:dynamic handle-weird-animal
+  [{[name] :content}]
+  (throw (Exception. (str name " must be 'dealt with'"))))
+
+
+(defmulti visit :tag)
+
+
+(defmethod visit :animal [{[name] :content :as animal}]
+  (case name
+    "Spot" (handle-weird-animal animal)
+    "Lopshire" (handle-weird-animal animal)
+    (println name)))
+
+
+(traverse DB visit)
+
+
+(defn unchunked-filter
+  [counter mark-meter-fn pred coll]
+  (lazy-seq
+    (when-let [s (seq coll)]
+      (let [f (first s) r (rest s)]
+        (if (pred f)
+          (cons f (unchunked-filter counter mark-meter-fn pred r))
+          (do (swap! counter inc)
+              (mark-meter-fn 1)
+              (unchunked-filter counter mark-meter-fn pred r)))))))

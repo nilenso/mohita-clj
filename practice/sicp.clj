@@ -63,4 +63,3 @@
   (if (= count 0)
     (+ b c)
     (f-iter (+ a (* b 2) (* c 3)) a b (- count 1))))
-
