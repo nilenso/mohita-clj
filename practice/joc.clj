@@ -272,12 +272,14 @@ ds2
   (lazy-seq
     (when-let [s (seq (take n xs))]
       (let [cb (chunk-buffer n)]
-        (doseq [x s] (chunk-append cb x))
+        (doseq [x s]
+          (chunk-append cb x))
         (chunk-cons (chunk cb)
                     (re-chunk n (drop n xs)))))))
 
 
-(first (map (fn [x] (prn x) x) (re-chunk 3 (range))))
+(first (map (fn [x] (prn x) x)
+            (re-chunk 3 (range))))
 
 
 (first (map (fn [x] (prn x) x)
@@ -297,13 +299,46 @@ ds2
 
 ;; n = 3
 ;; c1 - x ->x
-;; c2 - x -> k1(x * 3)
-;; c3 - x -> k2(x * 2) --- base case
-;;        -> k2(k1(x * 3) * 2)
-;; k3 will be called with val of 1
-;; k3(1)
-;; k2(2)
-;; k1(6)
+;; c2 - x -> c1(x * 3)
+;; c3 - x -> c2(x * 2) --- base case
+;;        -> c2(k1(x * 3) * 2)
+;; c3 will be called with val of 1
+;; c3(1)
+;; c2(2)
+;; c1(6)
+
+;;nth fibonacci number
+
+;;recursively
+(defn fib-rec
+  [n]
+  (if (< n 2)
+    n
+    (+ (fib-rec (- n 1)) (fib-rec (- n 2)))))
+
+;;tail recursion
+(defn fib-tc-helper
+  [n acc1 acc2]
+  (if (< n 2)
+    acc1
+    (recur (dec n) (+ acc1 acc2) acc1)))
+
+
+(defn fib-tc [n]
+        (fib-tc-helper n 1 0))
+
+;;cps
+
+(defn fib-cps [n k]
+  (letfn [(cont [n1] (fib-cps (- n 2)
+                              (fn [n2] (k (+ n1 n2)))))]
+    (if (< n 2)
+      (k n)
+      (recur (- n 1) cont))))
+
+;; k1 x - x
+;; k2 x
+
 
 ;; x^n
 (defn pow-2
@@ -311,14 +346,3 @@ ds2
   (if (= 0 n)
     acc
     (recur x (dec n) (* acc x))))
-
-
-(defn rec-step
-  [[x & xs] acc]
-  (prn (type xs))
-  (if x
-    (rec-step xs [x acc])
-    acc))
-
-
-(lazy-seq (rec-step (range) []))
