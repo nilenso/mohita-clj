@@ -47,3 +47,10 @@
     (transpose-matrix matrix)
     (get-diagonals-of-matrix matrix)))
 
+
+(defn print-matrix
+  [matrix]
+  (apply str (for [row matrix]
+               (str
+                 (apply str "\n"
+                        (interpose " " row))))))

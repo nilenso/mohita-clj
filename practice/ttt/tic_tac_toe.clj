@@ -6,6 +6,7 @@
 
 
 (def valid-game-pieces-set #{:o :x :e})
+(def game-pieces-set #{:o :x})
 
 
 (defn winner-of-collection
@@ -26,8 +27,12 @@
 (defn winning-game-piece
   [board]
   (if (= 1 (count (winners-of-seqs board)))
-    (first (winners-of-seqs board))
-    "No Winner"))
+    (first (winners-of-seqs board))))
+
+
+(defn draw?
+  [board]
+  (clojure.set/subset? (set (flatten board)) game-pieces-set))
 
 
 (defn valid-board?
@@ -40,17 +45,24 @@
   (if (and
         (mo/square-matrix? board)
         (valid-board? board))
-    (winning-game-piece board)
-    "Invalid Board"))
+    (winning-game-piece board)))
+
+
+(defn game-over?
+  [board]
+  (some? (winner-of-board board)))
 
 
 (def test-board
-  [[:x :e]])
+  [[:o :x :x]
+   [:x :x :o]
+   [:e :o :x]])
 
 
-(defn -main
-  []
-  (prn (winner-of-board test-board)))
+;;
+;; (defn -main
+;;  []
+;;  (prn (winner-of-board test-board)))
 
 
 ;; board
