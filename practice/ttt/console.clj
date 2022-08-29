@@ -1,6 +1,7 @@
 (ns ttt.console
   (:gen-class)
   (:require
+    [failjure.core :as f]
     [ttt.matrix-operations :as mo]
     [ttt.tic-tac-toe :as ttt]))
 
@@ -31,42 +32,56 @@
   (assoc-in board coordinate game-piece))
 
 
-(defn move-valid?
-  [coordinate board]
-  (= :e (get-in board coordinate)))
-
-
 (defn place-move-on-board
   [coordinate game-piece board]
   (update-board coordinate game-piece board))
 
 
-(defn read-position
-  [game-piece board]
-  (prn (str "Choose position for " game-piece))
-  (let [position (Integer/parseInt (read-line))
-        coord (get position-to-coordinate position)]
-    (if (move-valid? coord board)
-      (place-move-on-board coord game-piece board)
-      (do (prn "Invalid Coordinate. Try again")
-          (recur game-piece board)))))
+(defn move-valid?
+  [coordinate board]
+  (= :e (get-in board coordinate)))
 
 
-(defn play-game
-  [board]
-  (loop [board           board
-         player-sequence player-order]
-    (println "Current board:" (mo/print-matrix board))
-    (cond
-      (ttt/game-over? board) (ttt/winner-of-board board)
-      (ttt/draw? board) (str "It's a draw")
-      :else
-      (recur
-        (read-position (first player-sequence) board)
-        (rest player-sequence)))))
+(defn position-valid?
+  [pos]
+  (if (and (Integer/parseInt pos)
+           (<= 1 (Integer/parseInt pos) 9))
+    pos
+    (f/fail "Enter a number between 1-9")))
+
+(defn validate-position
+  [position]
+  (f/attempt #(str "Error: " (f/message %))
+             (position-valid? position)))
+
+;(defn read-position
+;  [game-piece board]
+;  (prn (str "Choose position for " game-piece))
+;  (if-let [position (Integer/parseInt (read-line))
+;           coord    (get position-to-coordinate position)]
+;    (if (move-valid? coord board)
+;      (place-move-on-board coord game-piece board)
+;      (do (prn "Invalid Coordinate. Try again")
+;          (recur game-piece board)))))
 
 
-(defn -main
-  []
-  (play-game initial-board))
+;;
+;;
+;; (defn play-game
+;;  [board]
+;;  (loop [board           board
+;;         player-sequence player-order]
+;;    (println "Current board:" (mo/print-matrix board))
+;;    (cond
+;;      (ttt/game-over? board) (ttt/winner-of-board board)
+;;      (ttt/draw? board) (str "It's a draw")
+;;      :else
+;;      (recur
+;;        (read-position (first player-sequence) board)
+;;        (rest player-sequence)))))
+;;
+;;
+;; (defn -main
+;;  []
+;;  (play-game initial-board))
 
