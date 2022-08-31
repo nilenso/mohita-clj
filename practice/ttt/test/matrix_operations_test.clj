@@ -58,5 +58,3 @@
   (testing "With 1x2 matrix"
     (is (= false (square-matrix? test-matrix)))))
 
-
-(run-all-tests #"clojure.test.example")

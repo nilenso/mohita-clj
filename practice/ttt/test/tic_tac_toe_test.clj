@@ -57,4 +57,4 @@
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
 
 
-(run-all-tests #"clojure.test.example")
+
