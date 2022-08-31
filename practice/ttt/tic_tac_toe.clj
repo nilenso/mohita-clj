@@ -19,8 +19,10 @@
 
 (defn winners-of-seqs
   [matrix]
-  (remove nil? (map winner-of-collection
-                    (mo/get-all-possible-seqs matrix))))
+  (->> matrix
+       (mo/get-all-possible-seqs)
+       (map winner-of-collection)
+       (remove nil?)))
 
 
 (defn winning-game-piece
@@ -45,7 +47,7 @@
 
 
 (def test-board
-  [[:x :e]])
+  [[:x :e ]])
 
 
 (defn -main
