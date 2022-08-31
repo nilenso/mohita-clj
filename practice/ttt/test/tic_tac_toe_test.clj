@@ -44,10 +44,11 @@
                                   [:o :x :e]
                                   [:o :e :x]])))))
 
-  (testing "Returns no winner when there is a draw"
-    (is (= "No Winner" (winner-of-board [[:x :e :o]
-                                         [:x :x :e]
-                                         [:o :x :o]]))))
+  (testing "Returns no winner "
+    (testing "when there is a draw"
+      (is (= "No Winner" (winner-of-board [[:x :e :o]
+                                           [:x :x :e]
+                                           [:o :x :o]])))))
   (testing "Returns invalid board "
     (testing "when game pieces aren't valid"
       (is (= "Invalid Board" (winner-of-board [[:x :e :o]
@@ -55,6 +56,5 @@
                                                [:o 1 :o]]))))
     (testing "when board is not a square matrix "
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
-
 
 
