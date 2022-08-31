@@ -32,7 +32,6 @@
     (first (winners-of-seqs board))))
 
 
-
 (defn winner-of-board
   [board player-sequence]
   (if-let [winner (winning-game-piece board)]
@@ -47,7 +46,6 @@
 
 (def test-board
   [[:x :e]])
-
 
 
 ;;
