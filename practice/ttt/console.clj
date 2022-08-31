@@ -1,6 +1,8 @@
 (ns ttt.console
   (:gen-class)
   (:require
+    [failjure.core :as f]
+    [ttt.error-handlers :as eh]
     [ttt.matrix-operations :as mo]
     [ttt.tic-tac-toe :as ttt]))
 
@@ -11,10 +13,14 @@
    [:e :e :e]])
 
 
-;; (def position-board
-;;  [[1 2 3]
-;;   [4 5 6]
-;;   [7 8 9]])
+
+
+
+(def position-board
+  [[1 2 3]
+   [4 5 6]
+   [7 8 9]])
+
 
 (def position-to-coordinate
   {1 [0 0], 2 [0 1], 3 [0 2],
@@ -41,15 +47,29 @@
   (update-board coordinate game-piece board))
 
 
-(defn read-position
+(defn user-input-position
   [game-piece board]
   (prn (str "Choose position for " game-piece))
-  (let [position (Integer/parseInt (read-line))
-        coord (get position-to-coordinate position)]
-    (if (move-valid? coord board)
-      (place-move-on-board coord game-piece board)
-      (do (prn "Invalid Coordinate. Try again")
-          (recur game-piece board)))))
+  (f/attempt-all [input (eh/valid-parse-int (read-line))
+                  pos (eh/in-valid-range input 1 9)
+                  coord (get position-to-coordinate pos)]
+
+                 (if (move-valid? coord board)
+                   (place-move-on-board coord game-piece board))
+
+                 (f/when-failed [e]
+                                (user-input-position game-piece board))))
+
+
+(defn user-input
+  []
+  (println "Press 1 to view position board \nPress 2 to make move")
+  (f/attempt-all [input (eh/valid-parse-int (read-line))
+                  option (eh/in-valid-range  input 1 2)]
+                 option
+                 (f/when-failed [e]
+                                (do (println (f/message e)))
+                                (user-input))))
 
 
 (defn play-game
@@ -61,9 +81,13 @@
       (ttt/game-over? board) (ttt/winner-of-board board)
       (ttt/draw? board) (str "It's a draw")
       :else
-      (recur
-        (read-position (first player-sequence) board)
-        (rest player-sequence)))))
+      (case (user-input)
+        1 (do
+            (println "\nPosition board" (mo/print-matrix position-board) "\n")
+            (recur board player-sequence))
+        2 (recur
+            (user-input-position (first player-sequence) board)
+            (rest player-sequence))))))
 
 
 (defn -main
