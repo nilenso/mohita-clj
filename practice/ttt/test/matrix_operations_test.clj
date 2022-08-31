@@ -52,7 +52,7 @@
     (is (= [nil] (get-elements-of-matrix test-square-matrix '([0 7]))))))
 
 
-(deftest test-square-matrix?
+(deftest square-matrix-test
   (testing "With 3x3 matrix"
     (is (= true (square-matrix? test-square-matrix))))
   (testing "With 1x2 matrix"
