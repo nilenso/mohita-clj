@@ -19,8 +19,9 @@ Current board:
 | :e  | :e  | :e  |
 | :e  | :e  | :e  | 
 
-"Choose 1 to play next move, 
-2 to see position board"
+"Press 1 to play next move, 
+
+Press 2 to see position board"
 
 
 => 1 
@@ -32,7 +33,8 @@ Current board:
 | :e  | :e  | :e  |
 | :e  | :e  | :e  | 
 
-"Choose 1 to play next move,
-2 to see position board"
+"Press 1 to play next move,
+
+Press 2 to see position board"
 
 and so on. 
