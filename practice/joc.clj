@@ -1,5 +1,10 @@
 (ns joc
-  (:gen-class))
+  (:gen-class)
+  (:require
+    [clojure.xml :as xml])
+  (:import
+    (java.io
+      ByteArrayInputStream)))
 
 
 ;; java array can be modified
@@ -257,22 +262,155 @@ ds2
 
 (defn simple-range
   [i limit]
+
   (lazy-seq
     (when (< i limit)
-      (cons i (simple-range (inc i) limit)))))
+      (do (prn i)
+          (cons i (simple-range (inc i) limit))))))
 
 
-(take 2 (simple-range 0 9))
+(def a (first (simple-range 0 50)))
 
 
-(defn simple-range
-  [i limit]
+(defn re-chunk
+  [n xs]
   (lazy-seq
-    (when (< i limit)
-      (cons i (simple-range (inc i) limit)))))
+    (when-let [s (seq (take n xs))]
+      (let [cb (chunk-buffer n)]
+        (doseq [x s]
+          (chunk-append cb x))
+        (chunk-cons (chunk cb)
+                    (re-chunk n (drop n xs)))))))
 
 
-(first (map (fn [x] (prn x) x) (range)))
+(first (map (fn [x] (prn x) x)
+            (range)))
 
 
-(first (map (fn [x] (prn x) x) (range 100)))
+(first (map (fn [x] (prn x) x)
+            (range 100)))
+
+
+(defn fac-cps
+  [n k]
+  (letfn [(cont [v] (k (* v n)))]
+    (if (zero? n)
+      (k 1)
+      (recur (dec n) cont))))
+
+
+(fac-cps 3 identity)
+
+
+;; n = 3
+;; c1 - x ->x
+;; c2 - x -> c1(x * 3)
+;; c3 - x -> c2(x * 2) --- base case
+;;        -> c2(k1(x * 3) * 2)
+;; c3 will be called with val of 1
+;; c3(1)
+;; c2(2)
+;; c1(6)
+
+;; nth fibonacci number
+
+;; recursively
+(defn fib-rec
+  [n]
+  (if (< n 2)
+    n
+    (+ (fib-rec (- n 1)) (fib-rec (- n 2)))))
+
+
+;; tail recursion
+(defn fib-tc-helper
+  [n acc1 acc2]
+  (if (< n 2)
+    acc1
+    (recur (dec n) (+ acc1 acc2) acc1)))
+
+
+(defn fib-tc
+  [n]
+  (fib-tc-helper n 1 0))
+
+
+;; cps
+
+(defn fib-cps
+  [n k]
+  (letfn [(cont
+            [n1]
+            (fib-cps (- n 2)
+                     (fn [n2] (k (+ n1 n2)))))]
+    (if (< n 2)
+      (k n)
+      (recur (- n 1) cont))))
+
+
+
+;; k1 x - x
+;; k2 x
+
+
+;; x^n
+(defn pow-2
+  [x n acc]
+  (if (= 0 n)
+    acc
+    (recur x (dec n) (* acc x))))
+
+
+;; ERROR HANDLNG
+(defn traverse
+  [node f]
+  (when node
+    (f node)
+    (doseq [child (:content node)]
+      (traverse child f))))
+
+
+(def DB
+  (-> "<zoo>
+         <pongo>
+           <animal>orangutan</animal>
+         </pongo>
+         <panthera>
+           <animal>Spot</animal>
+           <animal>lion</animal>
+           <animal>Lopshire</animal>
+         </panthera>
+       </zoo>"
+      .getBytes
+      (ByteArrayInputStream.)
+      xml/parse))
+
+
+(defn ^:dynamic handle-weird-animal
+  [{[name] :content}]
+  (throw (Exception. (str name " must be 'dealt with'"))))
+
+
+(defmulti visit :tag)
+
+
+(defmethod visit :animal [{[name] :content :as animal}]
+  (case name
+    "Spot" (handle-weird-animal animal)
+    "Lopshire" (handle-weird-animal animal)
+    (println name)))
+
+
+(traverse DB visit)
+
+
+(defn unchunked-filter
+  [counter mark-meter-fn pred coll]
+  (lazy-seq
+    (when-let [s (seq coll)]
+      (let [f (first s) r (rest s)]
+        (if (pred f)
+          (cons f (unchunked-filter counter mark-meter-fn pred r))
+          (do (swap! counter inc)
+              (mark-meter-fn 1)
+              (unchunked-filter counter mark-meter-fn pred r)))))))

@@ -16,7 +16,7 @@
     (is (= nil (winner-of-collection [:x :x :o])))))
 
 
-(deftest valid-board?-test
+(deftest valid-board-test
   (testing "Validity of a board"
     (testing "with valid game pieces"
       (is (= true (valid-board? [[:x :e :o]
@@ -44,10 +44,11 @@
                                   [:o :x :e]
                                   [:o :e :x]])))))
 
-  (testing "Returns no winner when there is a draw"
-    (is (= "No Winner" (winner-of-board [[:x :e :o]
-                                         [:x :x :e]
-                                         [:o :x :o]]))))
+  (testing "Returns no winner "
+    (testing "when there is a draw"
+      (is (= "No Winner" (winner-of-board [[:x :e :o]
+                                           [:x :x :e]
+                                           [:o :x :o]])))))
   (testing "Returns invalid board "
     (testing "when game pieces aren't valid"
       (is (= "Invalid Board" (winner-of-board [[:x :e :o]
@@ -57,4 +58,3 @@
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
 
 
-(run-all-tests #"clojure.test.example")
