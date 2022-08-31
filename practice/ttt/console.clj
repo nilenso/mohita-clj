@@ -13,9 +13,6 @@
    [:e :e :e]])
 
 
-
-
-
 (def position-board
   [[1 2 3]
    [4 5 6]
@@ -79,8 +76,7 @@
          player-sequence player-order]
     (println "Current board:" (mo/print-matrix board))
     (cond
-      (ttt/game-over? board) (ttt/winner-of-board board)
-      (ttt/draw? board) (str "It's a draw")
+      (ttt/game-over? board player-sequence) (ttt/winner-of-board board player-sequence)
       :else
       (case (user-input)
         1 (do
