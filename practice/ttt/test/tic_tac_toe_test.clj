@@ -16,7 +16,7 @@
     (is (= nil (winner-of-collection [:x :x :o])))))
 
 
-(deftest valid-board?-test
+(deftest test-valid-board?
   (testing "Validity of a board"
     (testing "with valid game pieces"
       (is (= true (valid-board? [[:x :e :o]
