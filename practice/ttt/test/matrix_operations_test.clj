@@ -10,7 +10,7 @@
    [7 8 9]])
 
 
-(def test-matrix
+(def test-1-by-2-matrix
   [[1 2]])
 
 
@@ -30,7 +30,7 @@
   (testing "With 3x3 matrix"
     (is (= '([0 0] [1 1] [2 2]) (primary-diag-coordinates test-square-matrix))))
   (testing "With 1x2 matrix"
-    (is (= nil (primary-diag-coordinates test-matrix))))
+    (is (= nil (primary-diag-coordinates test-1-by-2-matrix))))
   (testing "With empty matrix"
     (is (= nil (primary-diag-coordinates [[]])))))
 
@@ -39,7 +39,7 @@
   (testing "With 3x3 matrix"
     (is (= '([0 2] [1 1] [2 0]) (secondary-diag-coordinates test-square-matrix))))
   (testing "With 1x2 matrix"
-    (is (= nil (secondary-diag-coordinates test-matrix))))
+    (is (= nil (secondary-diag-coordinates test-1-by-2-matrix))))
   (testing "With empty matrix"
     (is (= nil (secondary-diag-coordinates [[]])))))
 
@@ -56,5 +56,5 @@
   (testing "With 3x3 matrix"
     (is (= true (square-matrix? test-square-matrix))))
   (testing "With 1x2 matrix"
-    (is (= false (square-matrix? test-matrix)))))
+    (is (= false (square-matrix? test-1-by-2-matrix)))))
 
