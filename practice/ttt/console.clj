@@ -49,7 +49,7 @@
 
 (defn user-input-position
   [game-piece board]
-  (prn (str "Choose position for " game-piece))
+  (println  "Choose position for" game-piece)
   (f/attempt-all [input (eh/valid-parse-int (read-line))
                   pos (eh/in-valid-range input 1 9)
                   coord (get position-to-coordinate pos)]
@@ -58,7 +58,8 @@
                    (place-move-on-board coord game-piece board))
 
                  (f/when-failed [e]
-                                (user-input-position game-piece board))))
+                                (do (println (f/message e))
+                                    (user-input-position game-piece board)))))
 
 
 (defn user-input
