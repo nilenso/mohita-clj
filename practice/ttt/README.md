@@ -1,24 +1,38 @@
 # Tick Tac Toe 
 ### Cli interface 
 
-repl=> lein run 
+To start the game use `lein run`: 
+
+Pick a position on the board according to the position board:
+
+| 1   | 2   | 3   |
+|-----|-----|-----|
+ | 4   | 5   | 6   |
+| 7   | 8   | 9   | 
+
+=> lein run: 
+
 Current board:
 
-:e :e :e
+| :e  | :e  | :e  |
+|-----|-----|-----|
+| :e  | :e  | :e  |
+| :e  | :e  | :e  | 
 
-:e :e :e
-
-:e :e :e
-
-"Choose position for :o"
+"Choose 1 to play next move, 
+2 to see position board"
 
 
 => 1 
 
 Current board:
 
-:o :e :e
+| :o  | :e  | :e  |
+|-----|-----|-----|
+| :e  | :e  | :e  |
+| :e  | :e  | :e  | 
 
-:e :e :e
+"Choose 1 to play next move,
+2 to see position board"
 
-:e :e :e
+and so on. 
