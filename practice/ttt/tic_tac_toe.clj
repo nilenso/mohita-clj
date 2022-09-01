@@ -40,8 +40,8 @@
 (defn winner-of-board
   [board]
   (if (and
-       (mo/square-matrix? board)
-       (valid-board? board))
+        (mo/square-matrix? board)
+        (valid-board? board))
     (winning-game-piece board)
     "Invalid Board"))
 

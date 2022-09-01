@@ -69,12 +69,13 @@
                                 (do (println (f/message e)))
                                 (user-input))))
 
+
 (defn print-winner
   [board player-sequence]
   (if (empty? player-sequence)
     (println "It's a draw")
-    (println "Winner is: " (ttt/winner-of-board board)))
-  )
+    (println "Winner is: " (ttt/winner-of-board board))))
+
 
 (defn play-game
   [board]
