@@ -56,8 +56,9 @@
   (testing "With 1x2 matrix"
     (is (= false (square-matrix? test-1-by-2-matrix)))))
 
+
 (deftest matrix-to-string-test
   (testing "With 3x3 matrix"
-    (is (= "\n1 2 3\n4 5 6\n7 8 9" (matrix-to-string test-square-matrix) )))
+    (is (= "\n1 2 3\n4 5 6\n7 8 9" (matrix->string test-square-matrix))))
   (testing "With 1x2 matrix"
-    (is (= "\n1 2" (matrix-to-string test-1-by-2-matrix)))))
+    (is (= "\n1 2" (matrix->string test-1-by-2-matrix)))))
