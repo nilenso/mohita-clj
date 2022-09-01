@@ -81,13 +81,13 @@
   [board]
   (loop [board           board
          player-sequence player-order]
-    (println "Current board:" (mo/print-matrix board))
+    (println "Current board:" (mo/matrix-to-string board))
     (cond
       (ttt/game-over? board player-sequence) (print-winner board player-sequence)
       :else
       (case (user-input)
         1 (do
-            (println "\nPosition board" (mo/print-matrix position-board) "\n")
+            (println "\nPosition board" (mo/matrix-to-string position-board) "\n")
             (recur board player-sequence))
         2 (recur
             (user-input-position (first player-sequence) board)

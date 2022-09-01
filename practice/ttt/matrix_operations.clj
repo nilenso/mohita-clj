@@ -48,7 +48,7 @@
     (get-diagonals-of-matrix matrix)))
 
 
-(defn print-matrix
+(defn matrix-to-string
   [matrix]
   (apply str (for [row matrix]
                (str
