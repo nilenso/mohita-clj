@@ -4,7 +4,7 @@
    [failjure.core :as f]
    [ttt.error-handlers :as eh]
    [ttt.matrix-operations :as mo]
-   [ttt.win-finder :as ttt]))
+   [ttt.win-finder :as wf]))
 
 
 (def initial-board
@@ -26,22 +26,22 @@
 
 
 (def player-order
-  (take 9 (cycle ttt/game-pieces-set)))
+  (take 9 (cycle wf/game-pieces-set)))
 
 
 (defn update-board
-  [coordinate game-piece board]
+  [board coordinate game-piece]
   (assoc-in board coordinate game-piece))
 
 
 (defn move-valid?
-  [coordinate board]
+  [board coordinate]
   (= :e (get-in board coordinate)))
 
 
 (defn place-move-on-board
-  [coordinate game-piece board]
-  (update-board coordinate game-piece board))
+  [board coordinate game-piece]
+  (update-board board coordinate game-piece))
 
 
 (defn user-input-position
@@ -51,8 +51,8 @@
                   pos (eh/in-valid-range input 1 9)
                   coord (get position-to-coordinate pos)]
 
-                 (if (move-valid? coord board)
-                   (place-move-on-board coord game-piece board))
+                 (if (move-valid? board coord)
+                   (place-move-on-board board coord game-piece))
 
                  (f/when-failed [e]
                                 (do (println (f/message e))
@@ -74,7 +74,7 @@
   [board player-sequence]
   (if (empty? player-sequence)
     (println "It's a draw")
-    (println "Winner is: " (ttt/winner-of-board board))))
+    (println "Winner is: " (wf/winner-of-board board))))
 
 
 (defn play-game
@@ -83,7 +83,7 @@
          player-sequence player-order]
     (println "Current board:" (mo/matrix->string board))
     (cond
-      (ttt/game-over? board player-sequence) (print-winner board player-sequence)
+      (wf/game-over? board player-sequence) (print-winner board player-sequence)
       :else
       (case (user-input)
         1 (do
