@@ -69,6 +69,12 @@
                                 (do (println (f/message e)))
                                 (user-input))))
 
+(defn print-winner
+  [board player-sequence]
+  (if (empty? player-sequence)
+    (println "It's a draw")
+    (println "Winner is: " (ttt/winner-of-board board)))
+  )
 
 (defn play-game
   [board]
@@ -76,7 +82,7 @@
          player-sequence player-order]
     (println "Current board:" (mo/print-matrix board))
     (cond
-      (ttt/game-over? board player-sequence) (ttt/winner-of-board board player-sequence)
+      (ttt/game-over? board player-sequence) (print-winner board player-sequence)
       :else
       (case (user-input)
         1 (do

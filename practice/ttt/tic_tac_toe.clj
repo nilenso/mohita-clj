@@ -32,11 +32,18 @@
     (first (winners-of-seqs board))))
 
 
+(defn valid-board?
+  [board]
+  (clojure.set/subset? (set (flatten board)) valid-game-pieces-set))
+
+
 (defn winner-of-board
-  [board player-sequence]
-  (if-let [winner (winning-game-piece board)]
-    (println "Winner is " winner)
-    (println "Its a draw")))
+  [board]
+  (if (and
+       (mo/square-matrix? board)
+       (valid-board? board))
+    (winning-game-piece board)
+    "Invalid Board"))
 
 
 (defn game-over?

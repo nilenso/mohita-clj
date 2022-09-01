@@ -44,9 +44,9 @@
                                   [:o :x :e]
                                   [:o :e :x]])))))
 
-  (testing "Returns no winner "
+  (testing "Returns nil "
     (testing "when there is a draw"
-      (is (= "No Winner" (winner-of-board [[:x :e :o]
+      (is (= nil (winner-of-board [[:x :e :o]
                                            [:x :x :e]
                                            [:o :x :o]])))))
   (testing "Returns invalid board "
@@ -56,5 +56,4 @@
                                                [:o 1 :o]]))))
     (testing "when board is not a square matrix "
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
-
 
