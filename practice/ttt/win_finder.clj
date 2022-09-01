@@ -9,6 +9,12 @@
 (def game-pieces-set #{:o :x})
 
 
+(def game-pieces-to-char
+  {:e "e"
+   :o "o"
+   :x "x"})
+
+
 (defn winner-of-collection
   [coll]
   (let [unique-val (set coll)]

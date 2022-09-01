@@ -7,6 +7,12 @@
     [ttt.win-finder :as wf]))
 
 
+(def game-pieces-to-char
+  {:e "e"
+   :o "o"
+   :x "x"})
+
+
 (def initial-board
   [[:e :e :e]
    [:e :e :e]
@@ -65,6 +71,11 @@
                                 (user-input))))
 
 
+(defn board-to-char
+  [board]
+  (mo/matrix->string (mapv (partial mapv #(get game-pieces-to-char %)) board)))
+
+
 (defn print-winner
   [board player-sequence]
   (if (empty? player-sequence)
@@ -76,7 +87,7 @@
   [board]
   (loop [board           board
          player-sequence player-order]
-    (println "Current board:" (mo/matrix->string board))
+    (println "Current board:" (board-to-char board))
     (cond
       (wf/game-over? board player-sequence) (print-winner board player-sequence)
       :else
