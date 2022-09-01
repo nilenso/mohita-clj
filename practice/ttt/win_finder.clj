@@ -1,4 +1,4 @@
-(ns ttt.tic-tac-toe
+(ns ttt.win-finder
   (:gen-class)
   (:require
     [clojure.set]

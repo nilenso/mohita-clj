@@ -1,10 +1,10 @@
 (ns ttt.console
   (:gen-class)
   (:require
-    [failjure.core :as f]
-    [ttt.error-handlers :as eh]
-    [ttt.matrix-operations :as mo]
-    [ttt.tic-tac-toe :as ttt]))
+   [failjure.core :as f]
+   [ttt.error-handlers :as eh]
+   [ttt.matrix-operations :as mo]
+   [ttt.win-finder :as ttt]))
 
 
 (def initial-board

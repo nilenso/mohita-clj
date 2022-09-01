@@ -1,8 +1,8 @@
-(ns tic-tac-toe-test
+(ns win_finder_test
   (:require
-    [clojure.set]
-    [clojure.test :refer :all]
-    [ttt.tic-tac-toe :refer :all]))
+   [clojure.set]
+   [clojure.test :refer :all]
+   [ttt.win-finder :refer :all]))
 
 
 (def test-player-sequence (cycle game-pieces-set))
