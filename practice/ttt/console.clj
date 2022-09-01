@@ -1,10 +1,10 @@
 (ns ttt.console
   (:gen-class)
   (:require
-   [failjure.core :as f]
-   [ttt.error-handlers :as eh]
-   [ttt.matrix-operations :as mo]
-   [ttt.win-finder :as wf]))
+    [failjure.core :as f]
+    [ttt.error-handlers :as eh]
+    [ttt.matrix-operations :as mo]
+    [ttt.win-finder :as wf]))
 
 
 (def initial-board
@@ -39,11 +39,6 @@
   (= :e (get-in board coordinate)))
 
 
-(defn place-move-on-board
-  [board coordinate game-piece]
-  (update-board board coordinate game-piece))
-
-
 (defn user-input-position
   [game-piece board]
   (println  "Choose position for" game-piece)
@@ -52,7 +47,7 @@
                   coord (get position-to-coordinate pos)]
 
                  (if (move-valid? board coord)
-                   (place-move-on-board board coord game-piece))
+                   (update-board board coord game-piece))
 
                  (f/when-failed [e]
                                 (do (println (f/message e))
