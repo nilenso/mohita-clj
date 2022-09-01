@@ -21,9 +21,7 @@
             [3 6 9]]
            (transpose-matrix test-square-matrix))))
   (testing "With 2x1 matrix"
-    (is (= [[0 2]] (transpose-matrix [[0] [2]]))))
-  (testing "With empty matrix"
-    (is (= [[]] (transpose-matrix [[]])))))
+    (is (= [[0 2]] (transpose-matrix [[0] [2]])))))
 
 
 (deftest primary-diag-coordinates-test
