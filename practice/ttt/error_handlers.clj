@@ -3,7 +3,7 @@
     [failjure.core :as f]))
 
 
-(defn valid-parse-int
+(defn parse-int
   [s]
   (try
     (Integer/parseInt s)
@@ -12,7 +12,7 @@
              :error e))))
 
 
-(defn in-valid-range
+(defn in-range
   [n start end]
   (if (<= start n end)
     n

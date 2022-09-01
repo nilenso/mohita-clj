@@ -42,8 +42,8 @@
 (defn user-input-position
   [game-piece board]
   (println  "Choose position for" game-piece)
-  (f/attempt-all [input (eh/valid-parse-int (read-line))
-                  pos (eh/in-valid-range input 1 9)
+  (f/attempt-all [input (eh/parse-int (read-line))
+                  pos (eh/in-range input 1 9)
                   coord (get position-to-coordinate pos)]
 
                  (if (move-valid? board coord)
@@ -57,8 +57,8 @@
 (defn user-input
   []
   (println "Press 1 to view position board \nPress 2 to make move \nPress 3 to quit")
-  (f/attempt-all [input (eh/valid-parse-int (read-line))
-                  option (eh/in-valid-range  input 1 3)]
+  (f/attempt-all [input (eh/parse-int (read-line))
+                  option (eh/in-range input 1 3)]
                  option
                  (f/when-failed [e]
                                 (do (println (f/message e)))
