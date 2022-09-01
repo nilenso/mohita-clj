@@ -5,6 +5,9 @@
     [ttt.tic-tac-toe :refer :all]))
 
 
+(def test-player-sequence (cycle game-pieces-set))
+
+
 (deftest winner-of-collection-test
   (testing "With all :e elements"
     (is (= nil (winner-of-collection [:e :e :e]))))
@@ -47,8 +50,8 @@
   (testing "Returns nil "
     (testing "when there is a draw"
       (is (= nil (winner-of-board [[:x :e :o]
-                                           [:x :x :e]
-                                           [:o :x :o]])))))
+                                   [:x :x :e]
+                                   [:o :x :o]])))))
   (testing "Returns invalid board "
     (testing "when game pieces aren't valid"
       (is (= "Invalid Board" (winner-of-board [[:x :e :o]
@@ -57,3 +60,23 @@
     (testing "when board is not a square matrix "
       (is (= "Invalid Board" (winner-of-board [[:x :e]]))))))
 
+
+(deftest game-over-test
+  (testing "Returns true "
+    (testing "when there is a winner in board"
+      (is (= true (game-over? [[:e :x :e]
+                               [:o :o :o]
+                               [:x :e :x]] (take 2 test-player-sequence)))))
+    (testing "when there is a draw"
+      (is (= true (game-over? [[:x :o :x]
+                               [:x :o :o]
+                               [:o :x :x]] (take 0 test-player-sequence))))))
+  (testing "Returns false"
+    (testing "when there no winner with moves left"
+      (is (= false (game-over? [[:x :e :o]
+                                [:e :x :e]
+                                [:o :x :o]] (take 3 test-player-sequence)))))
+    (testing "when the board is empty"
+      (is (= false (game-over? [[:e :e :e]
+                                [:e :e :e]
+                                [:e :e :e]] (take 9 test-player-sequence)))))))
