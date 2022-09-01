@@ -56,9 +56,9 @@
 
 (defn user-input
   []
-  (println "Press 1 to view position board \nPress 2 to make move")
+  (println "Press 1 to view position board \nPress 2 to make move \nPress 3 to quit")
   (f/attempt-all [input (eh/valid-parse-int (read-line))
-                  option (eh/in-valid-range  input 1 2)]
+                  option (eh/in-valid-range  input 1 3)]
                  option
                  (f/when-failed [e]
                                 (do (println (f/message e)))
@@ -86,7 +86,8 @@
             (recur board player-sequence))
         2 (recur
             (user-input-position (first player-sequence) board)
-            (rest player-sequence))))))
+            (rest player-sequence))
+        3 (println "Bye bye!")))))
 
 
 (defn -main

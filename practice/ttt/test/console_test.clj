@@ -1,13 +1,17 @@
 (ns console_test
   (:require
     [clojure.test :refer :all]
-    [ttt.console :refer :all]))
+    [ttt.console :refer :all]
+    [ttt.win-finder :refer [game-pieces-set]]))
 
 
 (def test-empty-board
   [[:e :e :e]
    [:e :e :e]
    [:e :e :e]])
+
+
+(def test-player-sequence (cycle game-pieces-set))
 
 
 (deftest update-board-test
@@ -26,3 +30,4 @@
       (is (= false (move-valid? [[:e :e :e]
                                  [:e :o :e]
                                  [:e :e :e]] [1 1]))))))
+
