@@ -1,7 +1,7 @@
 # Tick Tac Toe 
 ### Cli interface 
 
-To start the game use `lein run`: 
+To start the game use : `lein run` or `clj -M -m ttt.console` 
 
 Pick a position on the board according to the position board:
 
