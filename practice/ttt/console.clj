@@ -73,8 +73,7 @@
 
 (defn board-to-char
   [board]
-  (mo/matrix->string
-    (mapv (partial mapv #(get game-pieces-to-char %)) board)))
+  (mo/matrix->string (mapv (partial mapv #(get game-pieces-to-char %)) board)))
 
 
 (defn print-winner

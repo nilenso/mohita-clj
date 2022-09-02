@@ -14,32 +14,28 @@ Pick a position on the board according to the position board:
 
 Current board:
 
-| e   | e   | e   |
+| :e  | :e  | :e  |
 |-----|-----|-----|
-| e   | e   | e   |
-| e   | e   | e   | 
+| :e  | :e  | :e  |
+| :e  | :e  | :e  | 
 
-Press 1 to play next move, 
+"Press 1 to play next move, 
 
-Press 2 to see position board
-
-Press 3 to quit
+Press 2 to see position board"
 
 
 => 1 
 
 Current board:
 
-| o   | e   | e   |
+| :o  | :e  | :e  |
 |-----|-----|-----|
-| e   | e   | e   |
-| e   | e   | e   | 
+| :e  | :e  | :e  |
+| :e  | :e  | :e  | 
 
-Press 1 to play next move,
+"Press 1 to play next move,
 
-Press 2 to see position board
-
-Press 3 to quit
+Press 2 to see position board"
 
 and so on. 
 
