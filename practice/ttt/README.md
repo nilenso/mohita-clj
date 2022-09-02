@@ -1,4 +1,4 @@
-# Tick Tac Toe 
+# Tic Tac Toe 
 ### Cli interface 
 
 To start the game use `lein run`: 
@@ -42,3 +42,7 @@ Press 2 to see position board
 Press 3 to quit
 
 and so on. 
+
+### Developer notes
+
+Run tests using `lein run`
