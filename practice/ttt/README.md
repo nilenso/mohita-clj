@@ -42,3 +42,9 @@ Press 2 to see position board
 Press 3 to quit
 
 and so on. 
+
+
+
+Run tests with deps:
+
+`clj -X:test` or `clj -M:test`
