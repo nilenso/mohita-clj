@@ -14,10 +14,10 @@ Pick a position on the board according to the position board:
 
 Current board:
 
-| :e  | :e  | :e  |
+| e   | e   | e   |
 |-----|-----|-----|
-| :e  | :e  | :e  |
-| :e  | :e  | :e  | 
+| e   | e   | e   |
+| e   | e   | e   | 
 
 "Press 1 to play next move, 
 
@@ -28,10 +28,10 @@ Press 2 to see position board"
 
 Current board:
 
-| :o  | :e  | :e  |
+| o   | e   | e   |
 |-----|-----|-----|
-| :e  | :e  | :e  |
-| :e  | :e  | :e  | 
+| e   | e   | e   |
+| e   | e   | e   | 
 
 "Press 1 to play next move,
 
