@@ -19,7 +19,7 @@ Macros (JOC and [Brave](https://www.braveclojure.com/writing-macros/))
 - When to use macros
     - Run code at compile time
     - need unevaluated args
-    - produce ********inline code?
+    - produce inline code?
 
 ---
 
