@@ -8,5 +8,4 @@
                                 "-d" "practice/ttt/test"
                                 "-r" ".*_test$"]
                   :exec-fn     cognitect.test-runner.api/test
-                  :exec-args   {:dirs      ["practice/ttt/test"]
-                                :patterns  [".*_test$"]}}}}
+                  :exec-args   {:dirs      ["practice/ttt/test"]}}}}

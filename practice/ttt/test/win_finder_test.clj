@@ -1,4 +1,4 @@
-(ns win_finder_test
+(ns win-finder-test
   (:require
     [clojure.set]
     [clojure.test :refer :all]

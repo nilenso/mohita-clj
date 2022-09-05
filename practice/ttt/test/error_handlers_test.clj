@@ -1,4 +1,4 @@
-(ns error_handlers_test
+(ns error-handlers-test
   (:require
     [clojure.test :refer :all]
     [failjure.core :as f]

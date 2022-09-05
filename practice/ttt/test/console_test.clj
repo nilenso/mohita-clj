@@ -1,4 +1,4 @@
-(ns console_test
+(ns console-test
   (:require
     [clojure.test :refer :all]
     [ttt.console :refer :all]
