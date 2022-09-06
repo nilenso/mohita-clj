@@ -47,7 +47,7 @@
 
 
 (def test-board
-  [[:x :e ]])
+  [[:x :e]])
 
 
 (defn -main
