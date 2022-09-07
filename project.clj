@@ -5,4 +5,4 @@
                  [failjure "2.2.0"]]
   :source-paths ["practice/"]
   :test-paths ["practice/ttt/test"]
-  :main ttt.console)
+  :main ttt.core)
