@@ -1,17 +1,21 @@
 (ns ttt.game
-  (:require [failjure.core :as f]
-            [ttt.board :as board]
-            [ttt.user-input :as user-input]))
+  (:require
+    [ttt.board :as board]
+    [ttt.user-input :as user-input]))
+
 
 (def player-order
   (take 9 (cycle board/game-pieces-set)))
 
+
 (defn over?
   [board player-sequence]
-  (or (empty? player-sequence)
-      (board/winner board)))
+  (or (board/winner board)
+      (empty? player-sequence)))
 
-(defn process-command [command board player-sequence]
+
+(defn process-command
+  [command board player-sequence]
   (case command
     1 (do
         (println "\nPosition board" board/positions-string "\n")
@@ -24,7 +28,8 @@
     3 [nil player-sequence]))
 
 
-(defn play [board]
+(defn play
+  [board]
   (loop [board           board
          player-sequence player-order]
     (println "Current board:" (board/to-string board))
