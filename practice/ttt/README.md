@@ -1,9 +1,9 @@
 # Tic Tac Toe 
 ### Cli interface 
 
-To start the game use `lein run`: 
+To start the game use `lein run`
 
-Pick a position on the board according to the position board:
+Possible positions:
 
 | 1   | 2   | 3   |
 |-----|-----|-----|
@@ -12,18 +12,20 @@ Pick a position on the board according to the position board:
 
 => lein run: 
 
+Enter a number between 1-9 to make a move
+
+Enter h to view position board
+
+Enter q to quit
+
 Current board:
 
 | e   | e   | e   |
 |-----|-----|-----|
 | e   | e   | e   |
-| e   | e   | e   | 
+| e   | e   | e   |
 
-"Press 1 to play next move, 
-
-Press 2 to see position board"
-
-
+Player is o
 => 1 
 
 Current board:
@@ -33,12 +35,12 @@ Current board:
 | e   | e   | e   |
 | e   | e   | e   | 
 
-"Press 1 to play next move,
+Player is x
 
-Press 2 to see position board"
+=> q
 
-and so on. 
+Bye bye!
 
 ### Developer notes
 
-Run tests using `lein run`
+Run tests using `lein test`

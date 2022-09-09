@@ -1,42 +1,30 @@
 (ns ttt.user-input
   (:require
-    [failjure.core :as f]))
-
-(def position-to-coordinate
-  {1 [0 0], 2 [0 1], 3 [0 2],
-   4 [1 0], 5 [1 1], 6 [1 2],
-   7 [2 0], 8 [2 1], 9 [2 2]})
-
-(defn parse-int
-  [s]
-  (try
-    (Integer/parseInt s)
-    (catch Exception e
-      (assoc (f/fail "Enter an Integer")
-             :error e))))
+    [failjure.core :as f]
+    [ttt.board :as board]))
 
 
-(defn in-range
-  [n start end]
-  (if (<= start n end)
-    n
-    (f/fail (str "Enter a number between " start " - " end))))
+(def extra-commands #{"q" "h"})
 
-(defn position [game-piece]
-  (println  "Choose position for" game-piece)
-  (f/attempt-all [input (parse-int (read-line))
-                  pos (in-range input 1 9)]
-                 (get position-to-coordinate pos)
 
-                 (f/when-failed [e]
-                                (do (println (f/message e))
-                                    (position game-piece)))))
+(def valid-commands
+  (->> board/valid-positions
+       (map str)
+       (concat extra-commands)
+       set))
 
-(defn command []
-  (println "Press 1 to view position board \nPress 2 to make move \nPress 3 to quit")
-  (f/attempt-all [input (parse-int (read-line))
-                  option (in-range input 1 3)]
-                 option
-                 (f/when-failed [e]
-                                (do (println (f/message e)))
-                                (command))))
+
+(defn valid-command?
+  [command]
+  (if (contains? valid-commands command)
+    command
+    (f/fail "Please enter a valid input")))
+
+
+(defn parse-command
+  [command]
+  (if (contains? extra-commands command)
+    command
+    (get board/position-to-coordinate (Integer/parseInt command))))
+
+
