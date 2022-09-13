@@ -400,7 +400,7 @@ ds2
     (println name)))
 
 
-(traverse DB visit)
+;; (traverse DB visit)
 
 
 (defn unchunked-filter
@@ -413,3 +413,78 @@ ds2
           (do (swap! counter inc)
               (mark-meter-fn 1)
               (unchunked-filter counter mark-meter-fn pred r)))))))
+
+
+(defn contextual-eval
+  [ctx expr]
+  (eval
+    `(let [~@(mapcat (fn [[k v]] [k `'~v]) ctx)]
+       ~expr)))
+
+
+(let [x 9, y '(- x)]
+  (println `y)
+  (println ``y)
+  (println ``~y)
+  (println ``~~y)
+  (contextual-eval {'x 36} ``~~y))
+
+
+(cond
+  (even? 3) (prn "not even")
+  (odd? 3) (prn "odd"))
+
+
+(eval '(list 1 2 '(+ 1 2)))
+
+(def message "Good job!")
+
+
+(defmacro with-mischief
+  [& stuff-to-do]
+  (concat (list 'let ['message "Oh, big deal!"])
+          stuff-to-do))
+
+
+(defmacro with-mischief
+  [& stuff-to-do]
+  `(let [message "Oh, big deal!"]
+     ~@stuff-to-do))
+
+
+(defmacro without-mischief
+  [& stuff-to-do]
+  (let [macro-message (gensym 'message)]
+    `(let [~macro-message "Oh, big deal!"]
+       ~@stuff-to-do
+       (println "I still need to say: " ~macro-message))))
+
+
+(with-mischief
+  (println "Here's how I feel about that thing you did: " message))
+
+
+(without-mischief
+  (println "Here's how I feel about that thing you did: " message))
+
+
+(macroexpand '(cond
+                (even? 5) "even"
+                (odd? 5) "odd"))
+
+
+;; args are not being evaluated. Return value will be evaled
+(defmacro twice
+  [e]
+  `(do ~e ~e))
+
+
+(twice (println "foo"))
+
+
+(defn twice
+  [e]
+  `(do ~e ~e))
+
+
+(twice (println "foo"))
