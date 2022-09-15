@@ -6,7 +6,7 @@
 
 
 (def player-order
-  (take 9 (cycle board/game-pieces-set)))
+  (take 9 (cycle board/game-player-set)))
 
 
 (defn over?

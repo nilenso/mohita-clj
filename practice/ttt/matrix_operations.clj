@@ -51,7 +51,13 @@
 (defn matrix->string
   [matrix]
   (apply str (for [row matrix]
-               (str
-                 (apply str "\n"
-                        (interpose " " row))))))
+               (->>  row
+                     (interpose " ")
+                     (apply str "\n")
+                     str))))
 
+
+(def test-matrix
+  [[:e :x :e]
+   [:o :o :o]
+   [:x :e :x]])

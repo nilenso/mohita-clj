@@ -57,20 +57,20 @@
 
   (testing "Returns winning game piece "
     (testing "when winner is along a row"
-      (is  (= :o (winning-game-piece [[:e :x :e]
+      (is  (= :o (winning-game-player [[:e :x :e]
                                       [:o :o :o]
                                       [:x :e :x]]))))
     (testing "when winner is along column"
-      (is (= :x (winning-game-piece [[:x :e :o]
+      (is (= :x (winning-game-player [[:x :e :o]
                                      [:x :e :e]
                                      [:x :e :o]]))))
     (testing "when winner is across diagonal"
-      (is (= :x (winning-game-piece [[:x :e :e]
+      (is (= :x (winning-game-player [[:x :e :e]
                                      [:o :x :e]
                                      [:o :e :x]])))))
 
   (testing "Returns nil "
     (testing "when there is a draw"
-      (is (= nil (winning-game-piece [[:x :e :o]
+      (is (= nil (winning-game-player [[:x :e :o]
                                       [:x :x :e]
                                       [:o :x :o]]))))))

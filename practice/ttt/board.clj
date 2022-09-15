@@ -28,9 +28,9 @@
   (mo/matrix->string (partition size (sort valid-positions))))
 
 
-(def valid-game-pieces-set #{:o :x :e})
+(def valid-game-player-set #{:o :x :e})
 
-(def game-pieces-set #{:o :x})
+(def game-player-set #{:o :x})
 
 
 (defn to-string
@@ -46,13 +46,13 @@
 (defn valid?
   [board]
   (and (mo/square-matrix? board)
-       (clojure.set/subset? (set (flatten board)) valid-game-pieces-set)))
+       (clojure.set/subset? (set (flatten board)) valid-game-player-set)))
 
 
 (defn update
-  [board coordinate game-piece]
+  [board coordinate game-player]
   (when (valid? board)
-    (assoc-in board coordinate game-piece)))
+    (assoc-in board coordinate game-player)))
 
 
 (defn winner-of-collection
@@ -72,7 +72,7 @@
        (remove nil?)))
 
 
-(defn winning-game-piece
+(defn winning-game-player
   [board]
   (when (= 1 (count (winners-of-seqs board)))
     (first (winners-of-seqs board))))
@@ -81,4 +81,4 @@
 (defn winner
   [board]
   (when (valid? board)
-    (winning-game-piece board)))
+    (winning-game-player board)))
