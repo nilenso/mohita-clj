@@ -20,10 +20,8 @@
             [2 5 8]
             [3 6 9]]
            (transpose-matrix test-square-matrix))))
-  (testing "With 2x1 matrix"
-    (is (= [[0 2]] (transpose-matrix [[0] [2]]))))
-  (testing "With empty matrix"
-    (is (= [[]] (transpose-matrix [[]])))))
+  (testing "With 1x2 matrix"
+    (is (= [[0 2]] (transpose-matrix [[0] [2]])))))
 
 
 (deftest primary-diag-coordinates-test
@@ -58,3 +56,9 @@
   (testing "With 1x2 matrix"
     (is (= false (square-matrix? test-1-by-2-matrix)))))
 
+
+(deftest matrix-to-string-test
+  (testing "With 3x3 matrix"
+    (is (= "\n1 2 3\n4 5 6\n7 8 9" (matrix->string test-square-matrix))))
+  (testing "With 1x2 matrix"
+    (is (= "\n1 2" (matrix->string test-1-by-2-matrix)))))
